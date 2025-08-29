@@ -1,3 +1,4 @@
+from Bookshelf.models import Book
 # Delete Operation
 
 ```python
