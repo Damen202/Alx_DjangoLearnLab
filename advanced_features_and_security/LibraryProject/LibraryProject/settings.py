@@ -31,14 +31,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'bookshelf',
-    'relationship_app',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "bookshelf",  # <-- replace with your app name
 ]
 
 MIDDLEWARE = [
@@ -126,14 +125,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "list_books"   # after login, go to books page
 LOGOUT_REDIRECT_URL = "login"       # after logout, go back to login
 
-AUTH_USER_MODEL = 'relationship_app.customUser'
+
 
 INSTALLED_APPS = [
     ...,
-    "accounts",  # register the app
+    "bookshelf",  # register the app
 ]
 
-AUTH_USER_MODEL = "accounts.CustomUser"
+AUTH_USER_MODEL = "bookshelf.CustomUser"
 
 # Media setup (for profile photos)
 MEDIA_URL = "/media/"
