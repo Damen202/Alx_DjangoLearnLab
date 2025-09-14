@@ -2,6 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from .models import Book
+from .forms import BookForm, BookSearchForm
+from django.core.paginator import Paginator
+from django.db.models import Q
 
 def home(request):
     return HttpResponse("Welcome to the Bookshelf app!")
@@ -29,3 +33,48 @@ def book_delete(request, pk):
     return redirect("book_list")
 
 
+@permission_required("bookshelf.can_view", raise_exception=True)
+def book_list(request):
+    form = BookSearchForm(request.GET or None)
+    qs = Book.objects.all()
+    # Cleaned & validated input via form
+    if form.is_valid() and form.cleaned_data.get("q"):
+        q = form.cleaned_data["q"]
+        # Use ORM with parameterization (no string interpolation)
+        qs = qs.filter(Q(title__icontains=q) | Q(author__icontains=q))
+
+    paginator = Paginator(qs, 10)
+    page = request.GET.get("page")
+    page_obj = paginator.get_page(page)
+    return render(request, "bookshelf/book_list.html", {"page_obj": page_obj, "form": form})
+
+@permission_required("bookshelf.can_create", raise_exception=True)
+def book_create(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("book_list")
+    else:
+        form = BookForm()
+    return render(request, "bookshelf/book_form.html", {"form": form})
+
+@permission_required("bookshelf.can_edit", raise_exception=True)
+def book_edit(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        form = BookForm(request.POST, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect("book_list")
+    else:
+        form = BookForm(instance=book)
+    return render(request, "bookshelf/book_form.html", {"form": form, "book": book})
+
+@permission_required("bookshelf.can_delete", raise_exception=True)
+def book_delete(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    if request.method == "POST":
+        book.delete()
+        return redirect("book_list")
+    return render(request, "bookshelf/book_confirm_delete.html", {"book": book})
