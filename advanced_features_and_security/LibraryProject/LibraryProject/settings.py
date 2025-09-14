@@ -44,3 +44,6 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://example.com").
 # ----- Content Security Policy options (if using django-csp) -----
 # If you install django-csp, add 'csp' to INSTALLED_APPS and 'csp.middleware.CSPMiddleware' near top of MIDDLEWARE.
 # Example shown in CSP section below.
+
+# Tell Django how to detect HTTPS when behind a proxy/load balancer
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
