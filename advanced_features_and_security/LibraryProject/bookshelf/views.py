@@ -6,6 +6,7 @@ from .models import Book
 from .forms import BookForm, BookSearchForm
 from django.core.paginator import Paginator
 from django.db.models import Q
+from .forms import ExampleForm, BookForm
 
 def home(request):
     return HttpResponse("Welcome to the Bookshelf app!")
@@ -78,3 +79,34 @@ def book_delete(request, pk):
         book.delete()
         return redirect("book_list")
     return render(request, "bookshelf/book_confirm_delete.html", {"book": book})
+
+@permission_required("bookshelf.can_create", raise_exception=True)
+def book_create(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("book_list")
+    else:
+        form = BookForm()
+    return render(request, "bookshelf/book_form.html", {"form": form})
+
+
+def example_view(request):
+    """Demo view using ExampleForm"""
+    if request.method == "POST":
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Example processing
+            name = form.cleaned_data["name"]
+            email = form.cleaned_data["email"]
+            message = form.cleaned_data.get("message", "")
+            return render(
+                request,
+                "bookshelf/example_success.html",
+                {"name": name, "email": email, "message": message},
+            )
+    else:
+        form = ExampleForm()
+
+    return render(request, "bookshelf/example_form.html", {"form": form})
