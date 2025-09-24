@@ -4,6 +4,10 @@ from datetime import datetime
 
 
 class Bookserializer(serializers.ModelSerializer):
+    title = serializers.CharField(max_length=200)
+    author = serializers.CharField(max_length=100)
+    publication_year = serializers.IntegerField()
+
     class Meta:
         model = Book
         fields = '__all__'
