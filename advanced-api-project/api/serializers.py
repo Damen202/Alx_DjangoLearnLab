@@ -1,13 +1,9 @@
-from .models import Book, Author
+from .models import Book
 from rest_framework import serializers
 from datetime import datetime
 
 
-class Bookserializer(serializers.ModelSerializer):
-    title = serializers.CharField(max_length=200)
-    author = serializers.CharField(max_length=100)
-    publication_year = serializers.IntegerField()
-
+class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = '__all__'
@@ -21,11 +17,7 @@ class Bookserializer(serializers.ModelSerializer):
 
 
 class Authorserializer(serializers.ModelSerializer):
-    books = Bookserializer(many=True, read_only=True)
-
-    class Meta:
-        model = Author
-        fields = ['name', 'books']
+    author_name = serializers.CharField(source='author.username')
 
     
         
