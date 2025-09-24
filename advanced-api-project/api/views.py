@@ -3,27 +3,27 @@ from .models import Book
 from .serializers import BookSerializer
 
 # Create your views here.
-class BookListAPIView(generics.ListAPIView):
+class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class BookDetailAPIView(generics.DetailAPIView):
+class BookDetailView(generics.DetailAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class BookCreateAPIView(generics.CreateAPIView):
+class BookCreateView(generics.CreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class BookUpdateAPIView(generics.UpdateAPIView):
+class BookUpdateView(generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class BookDeleteAPIView(generics.DeleteAPIView):
+class BookDeleteView(generics.DeleteAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticated]
