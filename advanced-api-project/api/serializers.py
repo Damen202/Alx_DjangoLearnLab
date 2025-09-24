@@ -16,8 +16,12 @@ class BookSerializer(serializers.ModelSerializer):
         return value
 
 
-class Authorserializer(serializers.ModelSerializer):
-    author_name = serializers.CharField(source='author.username')
+class AuthorSerializer(serializers.ModelSerializer):
+    books = BookSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Book
+        fields = ['name', 'books']
 
     
         
