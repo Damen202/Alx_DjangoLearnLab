@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from api.views import BookViewset
+from api.views import BookViewset, BookList
 from rest_framework import routers
 
 # Router instance
@@ -10,4 +10,5 @@ router.register(r'books', BookViewset, basename='book')  # simpler name
 urlpatterns = [
     
     path('', include(router.urls)),  # includes all CRUD endpoints
+    path('books/', BookList.as_view(), name='book-list'),  # Maps to the BookList vie
 ]
