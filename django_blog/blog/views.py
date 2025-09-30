@@ -24,19 +24,27 @@ def profile(request):
 
 
 
+class PostListview(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = None  # Add your serializer here
+    
 
 class PostDetailView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
+    serializer_class = None  # Add your serializer here
     
 
 class PostCreateView(generics.CreateAPIView):
     queryset = Post.objects.all()
-    
+    serializer_class = None  # Add your serializer here
 
 class PostUpdateView(generics.UpdateAPIView):
     queryset = Post.objects.all()
+    serializer_class = None  # Add your serializer here
  
 
 class PostDeleteView(generics.DeleteAPIView):
     queryset = Post.objects.all()
+    serializer_class = None  # Add your serializer here
+
     
