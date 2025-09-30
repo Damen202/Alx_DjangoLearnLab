@@ -24,7 +24,7 @@ def profile(request):
 
 
 
-class PostListview(generics.ListAPIView):
+class PostListView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = None  # Add your serializer here
     
