@@ -54,7 +54,7 @@ class PostDeleteView(generics.DeleteAPIView):
 
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/post_list.html'
+    template_name = 'blog/listing.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
 
@@ -65,7 +65,7 @@ class PostDetailView(DetailView):
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'content']
-    template_name = 'blog/post_create.html'
+    template_name = 'blog/creating.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -74,7 +74,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
-    template_name = 'blog/post_create.html'
+    template_name = 'blog/creating.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -87,7 +87,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('post-list')
-    template_name = 'blog/post_confirm_delete.html'
+    template_name = 'blog/deleting.html'
 
     def test_func(self):
         post = self.get_object()
@@ -97,7 +97,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content']
-    template_name = 'blog/post_edit.html'
+    template_name = 'blog/editing.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
