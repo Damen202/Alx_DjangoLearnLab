@@ -20,4 +20,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+
+    #tags and search URLs
+    path('search/', views.search_posts, name='post-search'),
+    path('tags/<str:tag_name>/', views.posts_by_tag, name='posts-by-tag'),
 ]
