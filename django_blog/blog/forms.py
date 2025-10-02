@@ -30,3 +30,11 @@ class CommentForm(forms.ModelForm):
         if len(content) > 2000:
             raise forms.ValidationError("Comment is too long (max 2000 characters).")
         return content
+    
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': forms.CheckboxSelectMultiple(),  # OR forms.SelectMultiple()
+        }

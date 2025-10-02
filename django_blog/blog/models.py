@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.urls import reverse
+from taggit.managers import TaggableManager
+from taggit.forms import TagWidget
+from django import forms
+
+
 
 # Create your models here.
 
@@ -41,14 +46,13 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-class Post(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag, related_name='posts', blank=True)  # NEW
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.title
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(),  # lets you type tags like "django, python"
+        }
     
