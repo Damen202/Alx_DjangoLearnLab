@@ -3,6 +3,7 @@ from .models import Comment, Post
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from taggit.forms import TagWidget
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -37,4 +38,12 @@ class PostForm(forms.ModelForm):
         fields = ['title', 'content', 'tags']
         widgets = {
             'tags': forms.CheckboxSelectMultiple(),  # OR forms.SelectMultiple()
+        }
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'tags': TagWidget(),  # lets you type tags like "django, python"
         }
